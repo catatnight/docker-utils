@@ -17,12 +17,12 @@ RUN apt-get install -y python-software-properties \
 
 # Add files
 #transmission
-ADD assets/run-trans.sh /root/run-trans.sh
+ADD assets/run-trans.sh /opt/run-trans.sh
 ADD assets/settings.json.default /etc/transmission-daemon/settings.json
 #supervisor
 ADD assets/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-RUN chmod 755 /root/*.sh
+RUN chmod 755 /opt/*.sh
 
 # Configure
 ENV T_user      guest
