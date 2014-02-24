@@ -16,11 +16,11 @@ run Transmission (BitTorrent client) including web client in a docker container
     T_passwd=guest
     T_whitelist='127.0.0.1, YOUR.I.P.ADDRESS' #set *.*.*.* if any remote ip is allowed
 
-    # run-server.sh 
-    docker run -p 80:9091 \ #change port to expose (default 80)
-      -v /path/to/downloads:/var/lib/transmission-daemon/downloads \ #change download directory 
-      -v /path/to/torrents:/var/lib/transmission-daemon/torrents \ #change torrents-to-watch directory 
-      -name trans -d catatnight/transmission
+    # run-server.sh
+    #Configure 
+    T_PORT=80                   #change port to expose (default 80)
+    DL_PATH=/path/to/downloads  #change download directory
+    TO_PATH=/path/to/torrents   #change torrents-to-watch directory
     ```
 
 2. run ```build.sh``` and ```run-server.sh``` 
