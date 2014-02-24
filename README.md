@@ -10,11 +10,11 @@ run Transmission (BitTorrent client) including web client in a docker container
 1. configure
 
     ```bash
-    # Dockerfile (NO double quotes)
+    # assets/install.sh
     #Configure
-    ENV T_user      guest
-    ENV T_passwd    guest
-    ENV T_whitelist 127.0.0.1, YOUR.I.P.ADDRESS #set *.*.*.* if any remote ip is allowed
+    T_user=guest
+    T_passwd=guest
+    T_whitelist='127.0.0.1, YOUR.I.P.ADDRESS' #set *.*.*.* if any remote ip is allowed
 
     # run-server.sh 
     docker run -p 80:9091 \ #change port to expose (default 80)
