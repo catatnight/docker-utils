@@ -1,4 +1,4 @@
-From ubuntu:latest
+From ubuntu:precise
 MAINTAINER Elliott Ye
 
 # Set noninteractive mode for apt-get
