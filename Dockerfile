@@ -15,7 +15,7 @@ RUN apt-get install -y python-software-properties \
     && /etc/init.d/transmission-daemon stop 
 
 # Add files
-ADD assets/settings.json.default /etc/transmission-daemon/settings.json
+ADD assets/settings.default.json /etc/transmission-daemon/settings.json
 
 # Initialization 
 ADD assets/install.sh /opt/install.sh
