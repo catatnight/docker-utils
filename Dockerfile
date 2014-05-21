@@ -7,8 +7,8 @@ ENV DEBIAN_FRONTEND noninteractive
 # upgrade base system packages
 RUN apt-get update
 
-# Start editing
-#install package here for cache
+### Start editing ###
+# Install package here for cache
 RUN apt-get -y install supervisor
 RUN apt-get install -y python-software-properties \
     && add-apt-repository ppa:transmissionbt/ppa \
