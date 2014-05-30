@@ -16,12 +16,9 @@ RUN apt-get -y install --no-install-recommends python-pip && pip install flexget
 # Add files
 #transmission
 ADD assets/settings.default.json /etc/transmission-daemon/settings.json
-#supervisor
-ADD assets/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Initialization 
 ADD assets/install.sh /opt/install.sh
-RUN chmod 755 /opt/*.sh 
 RUN /opt/install.sh 
 
 # Run

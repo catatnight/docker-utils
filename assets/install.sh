@@ -7,6 +7,18 @@ T_whitelist='127.0.0.1, YOUR.I.P.ADDRESS'
 T_rss='http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX'
 
 # Stop editing here
+#supervisor
+cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
+[supervisord]
+nodaemon=true
+
+[program:transmission]
+command=/usr/bin/transmission-daemon -f -g /etc/transmission-daemon
+
+[program:flexget]
+command=/usr/local/bin/flexget -c /opt/config.yml daemon start
+EOF
+
 #transmission
 adduser --disabled-password --gecos "" $T_user
 echo "$T_user:$T_passwd"|chpasswd
