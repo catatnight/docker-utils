@@ -22,17 +22,12 @@ run Transmission (BitTorrent client) including web client in a docker container
 	T_passwd=guest
 	T_whitelist='127.0.0.1, YOUR.I.P.ADDRESS' #set *.*.*.* if any remote ip is allowed
 	T_rss='http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX'
-
-	$ vim run-server.sh
-	#Configure 
-	DL_PATH=/path/to/downloads  #change download directory
-	TO_PATH=/path/to/torrents   #change torrents-to-watch directory
 	```
-3. Build container and then start it as root
+3. Build container and then manage it as root
 	
 	```bash
 	$ sudo ./build.sh
-	$ sudo ./run-server.sh
+	$ sudo ./manage.py -d /path/to/downloads -t /path/to/torrents [start|stop|restart]
 	```
 4. Don't forget to open port ```9091 & 51413``` and then you can visit web client on http://your.domain:9091
 
