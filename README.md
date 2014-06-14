@@ -27,7 +27,10 @@ run Transmission (BitTorrent client) including web client in a docker container
 	
 	```bash
 	$ sudo ./build.sh
-	$ sudo ./manage.py -d /path/to/downloads -t /path/to/torrents [start|stop|restart]
+	$ sudo ./manage.py [create|start|stop|restart|delete]
+	# when creating transmission container,
+	#  please specify paths of downloads and torrents as followed:
+	$ sudo ./manage.py -d /path/to/downloads -t /path/to/torrents create
 	```
 4. Don't forget to open port ```9091 & 51413``` and then you can visit web client on http://your.domain:9091
 
