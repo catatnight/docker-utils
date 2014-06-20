@@ -5,8 +5,10 @@ import shlex, subprocess
 import argparse
 
 if __name__ == '__main__':
-  parser = argparse.ArgumentParser(description='Manage transmission container')
-  parser.add_argument("execute", choices=['create','start','stop','restart','delete'], help="manage transmission")
+  app_name = 'transmission'
+  
+  parser = argparse.ArgumentParser(description='Manage %s container' % app_name)
+  parser.add_argument("execute", choices=['create','start','stop','restart','delete'], help='manage %s server' % app_name)
   parser.add_argument("-d", "--downloads", type=str, default="", help="path to downloads directory")
   parser.add_argument("-t", "--torrents", type=str, default="", help="path to torrents-to-watch directory")
   args = parser.parse_args()
@@ -19,26 +21,25 @@ if __name__ == '__main__':
     FAIL = '\033[91m'
     ENDC = '\033[0m'
 
-  def _execute(args):
-    if args.execute == "create" and (args.downloads == "" or args.torrents == ""):
+  def _execute(signal):
+    if signal == "create" and (args.downloads == "" or args.torrents == ""):
       sys.exit(bcolors.WARNING + "Error: Paths to downloads and torrents must be set. " + bcolors.ENDC)
-    signal_dict = {"create" : "docker run --net=host -v " \
-                              + args.downloads + ":/var/lib/transmission-daemon/downloads -v " \
-                              + args.torrents + ":/var/lib/transmission-daemon/torrents " \
-                              "--name transmission -d catatnight/transmission", \
-                   "start"  : "docker start   transmission", \
-                   "stop"   : "docker stop    transmission", \
-                   "restart": "docker restart transmission", \
-                   "delete" : "docker rm -f   transmission"}
-    process = subprocess.Popen(shlex.split(signal_dict[args.execute]), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
+    signal_dict = {"create" : \
+                      "docker run --net=host -v {1}:/var/lib/transmission-daemon/downloads -v {2}:/var/lib/transmission-daemon/torrents --name {0} -d catatnight/{0}" \
+                      .format(app_name, args.downloads, args.torrents), \
+                   "start"  : "docker start   %s" % app_name, \
+                   "stop"   : "docker stop    %s" % app_name, \
+                   "restart": "docker restart %s" % app_name, \
+                   "delete" : "docker rm -f   %s" % app_name}
+    process = subprocess.Popen(shlex.split(signal_dict[signal]), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     if process.stdout.readline():
-      if args.execute == "create": args.execute += " and start"
-      print bcolors.OKGREEN + args.execute + " transmission successfully" + bcolors.ENDC
+      if signal == "create": signal += " and start"
+      print bcolors.OKGREEN + signal + " %s successfully" % app_name + bcolors.ENDC
     else:
       _err = process.stderr.readline()
       if 'No such container' in _err:
-        print bcolors.WARNING + "Please create transmission container first" + bcolors.ENDC
+        print bcolors.WARNING + "Please create %s container first" % app_name + bcolors.ENDC
       else: print bcolors.WARNING + _err + bcolors.ENDC
     output = process.communicate()[0]
 
-  _execute(args)
+  _execute(args.execute)
