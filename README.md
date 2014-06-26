@@ -20,7 +20,7 @@ run Transmission (BitTorrent client) including web client in a docker container
 	#Configure
 	T_user=guest
 	T_passwd=guest
-	T_whitelist='127.0.0.1, YOUR.I.P.ADDRESS' #set *.*.*.* if any remote ip is allowed
+	T_whitelist='127.0.0.1,YOUR.I.P.ADDRESS'  #set *.*.*.* if any remote ip is allowed
 	T_rss='http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX'
 	```
 3. Build container and then manage it as root

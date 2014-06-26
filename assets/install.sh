@@ -3,7 +3,7 @@
 # Configure
 T_user=guest
 T_passwd=guest
-T_whitelist='127.0.0.1, YOUR.I.P.ADDRESS'
+T_whitelist='127.0.0.1,YOUR.I.P.ADDRESS'
 T_rss='http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX'
 
 # Stop editing here
@@ -13,7 +13,7 @@ cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
 nodaemon=true
 
 [program:transmission]
-command=/usr/bin/transmission-daemon -f -g /etc/transmission-daemon
+command=/usr/bin/transmission-daemon -f -g /etc/transmission-daemon --logfile /var/log/daemon.log
 
 [program:flexget]
 command=/usr/local/bin/flexget -c /opt/config.yml daemon start
