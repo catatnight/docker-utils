@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import os
 import shlex, subprocess
 import argparse
 
@@ -25,8 +26,11 @@ if __name__ == '__main__':
     if signal == "create" and (args.downloads == "" or args.torrents == ""):
       sys.exit(bcolors.WARNING + "Error: Paths to downloads and torrents must be set. " + bcolors.ENDC)
     signal_dict = {"create" : \
-                      "docker run --net=host -v {1}:/var/lib/transmission-daemon/downloads -v {2}:/var/lib/transmission-daemon/torrents --name {0} -d catatnight/{0}" \
-                      .format(app_name, args.downloads, args.torrents), \
+                      "docker run --net=host " \
+                      "-v {1}:/var/lib/transmission-daemon/downloads " \
+                      "-v {2}:/var/lib/transmission-daemon/torrents " \
+                      "-v {3}/transmission-daemon:/etc/transmission-daemon --name {0} -d catatnight/{0}" \
+                      .format(app_name, args.downloads, args.torrents, os.getcwd()), \
                    "start"  : "docker start   %s" % app_name, \
                    "stop"   : "docker stop    %s" % app_name, \
                    "restart": "docker restart %s" % app_name, \
