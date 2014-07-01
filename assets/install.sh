@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# Configure
-T_user=guest
-T_passwd=guest
-T_whitelist='127.0.0.1,YOUR.I.P.ADDRESS'
-T_rss='http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX'
-
-# Stop editing here
 #supervisor
 cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
 [supervisord]
@@ -14,9 +7,6 @@ nodaemon=true
 
 [program:transmission]
 command=/usr/bin/transmission-daemon -f -g /etc/transmission-daemon --logfile /var/log/daemon.log
-
-[program:flexget]
-command=/usr/local/bin/flexget -c /opt/config.yml daemon start
 EOF
 
 #transmission
@@ -30,6 +20,18 @@ sed -i -e "s/\"password\"/\"$T_passwd\"/" \
   /etc/transmission-daemon/settings.json
 
 #flexget
+if [[ $T_rss == 'http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX' ]]; then
+  exit 0
+fi
+
+apt-get -y install --no-install-recommends python-pip && pip install flexget transmissionrpc
+
+cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
+
+[program:flexget]
+command=/usr/local/bin/flexget -c /opt/config.yml daemon start
+EOF
+
 cat > /opt/config.yml <<EOF
 tasks:
   CHD.personal:

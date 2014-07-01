@@ -16,12 +16,13 @@ run Transmission (BitTorrent client) including web client in a docker container
 2. Configure
 
 	```bash
-	$ vim assets/install.sh
-	#Configure
-	T_user=guest
-	T_passwd=guest
-	T_whitelist='127.0.0.1,YOUR.I.P.ADDRESS'  #set *.*.*.* if any remote ip is allowed
-	T_rss='http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX'
+	$ vim Dockerfile 
+	# edit Dockerfile
+	ENV T_user      guest
+	ENV T_passwd    guest
+	ENV T_whitelist 127.0.0.1,YOUR.I.P.ADDRESS  #set *.*.*.* if any remote ip is allowed
+	# if you don't want to trigger rss download, keep the line below unchanged
+	ENV T_rss  http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX
 	```
 3. Build container and then manage it as root
 	
