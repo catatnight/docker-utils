@@ -1,45 +1,39 @@
 docker-transmission
 ===================
 
-run Transmission (BitTorrent client) including web client in a docker container 
+run Transmission (BitTorrent client) including web client in a docker container
 
 ## Requirement
 + Docker 0.11
 
-## Usage
-1. Clone the git repo
-	
-	```bash
-	$ git clone https://github.com/catatnight/docker-transmission.git
-	$ cd docker-transmission
-	```
-2. Configure
+## Installation
+1. Build image (as root)
 
 	```bash
-	$ vim Dockerfile 
-	# edit Dockerfile
-	ENV T_user      guest
-	ENV T_passwd    guest
-	ENV T_whitelist 127.0.0.1,YOUR.I.P.ADDRESS  #set *.*.*.* if any remote ip is allowed
-	# if you don't want to trigger rss download, keep the line below unchanged
-	ENV T_rss  http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX
+	$ docker pull catatnight/transmission
+	$ curl https://raw.githubusercontent.com/catatnight/docker-transmission/master/manage.py -o manage.py
+	$ chmod +x manage.py
 	```
-3. Build container and then manage it as root
-	
+
+## Usage
+1. Create container and manage it (as root)
+
 	```bash
-	$ sudo ./build.sh
-	$ sudo ./manage.py [create|start|stop|restart|delete]
+	$ ./manage.py -h
+	usage: manage.py [-h] [-d DOWNLOADS] [-t TORRENTS] [-u USERNAME] [-p PASSWORD]
+				 [--whitelist WHITELIST] [--rss_feed RSS_FEED]
+				 {create,start,stop,restart,delete}
 	# when creating transmission container,
 	#  please specify paths of downloads and torrents as followed:
 	$ sudo ./manage.py -d /path/to/downloads -t /path/to/torrents create
 	```
-4. Don't forget to open port ```9091 & 51413``` and then you can visit web client on http://your.domain:9091
 
 ## Note
 + ```/path/to/torrents``` is the value of ```watch-dir``` in Transmission
-		
+
 	> Note: When watch-dir-enabled is true, only the transmission-daemon, transmission-gtk, and transmission-qt applications will monitor watch-dir for new .torrent files and automatically load them.
 + Add popular RSS download function (successfully tested on CHDBits.org)
++ Don't forget to open port ```9091``` & ```51413```
 
 ## Reference
 + [EditConfigFiles – Transmission](https://trac.transmissionbt.com/wiki/EditConfigFiles)
