@@ -7,31 +7,24 @@ nodaemon=true
 
 [program:transmission]
 command=/usr/bin/transmission-daemon -f -g /etc/transmission-daemon --logfile /var/log/daemon.log
+
 EOF
 
 #transmission
-adduser --disabled-password --gecos "" $T_user
-echo "$T_user:$T_passwd"|chpasswd
-usermod -a -G debian-transmission $T_user
-chmod 770 /var/lib/transmission-daemon/downloads
 sed -i -e "s/\"password\"/\"$T_passwd\"/" \
     -e "s/\"transmission\"/\"$T_user\"/" \
-    -e "s/\"127.0.0.1\"/\"$T_whitelist\"/" \
+    -e "s/\"127.0.0.1\"/\"127.0.0.1,$T_whitelist\"/" \
   /etc/transmission-daemon/settings.json
 
 #flexget
-if [[ $T_rss == 'http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX' ]]; then
+if [[ -z "$T_rss" ]]; then
   exit 0
+elif [[ ! -a /opt/config.yml ]]; then
+	cat >> /etc/supervisor/conf.d/supervisord.conf <<-EOF
+	[program:flexget]
+	command=/usr/local/bin/flexget -c /opt/config.yml daemon start
+	EOF
 fi
-
-apt-get -y install --no-install-recommends python-pip && pip install flexget transmissionrpc
-
-cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
-
-[program:flexget]
-command=/usr/local/bin/flexget -c /opt/config.yml daemon start
-EOF
-
 cat > /opt/config.yml <<EOF
 tasks:
   CHD.personal:

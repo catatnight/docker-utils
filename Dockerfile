@@ -11,20 +11,16 @@ RUN apt-get update
 # Install package here for cache
 RUN apt-get -y install supervisor
 RUN apt-get -y install transmission-daemon && /etc/init.d/transmission-daemon stop
+RUN apt-get -y install --no-install-recommends python-pip && pip install flexget transmissionrpc
 
 # Add files
 #transmission
 ADD assets/settings.default.json /etc/transmission-daemon/settings.json
 
 # Configure
-ENV T_user      guest
-ENV T_passwd    guest
-ENV T_whitelist 127.0.0.1,YOUR.I.P.ADDRESS
-ENV T_rss       http://chdbits.org/torrentrss.php?myrss=1&linktype=dl&uid=XXX&passkey=XXX
 
-# Initialization 
+# Initialization
 ADD assets/install.sh /opt/install.sh
-RUN /opt/install.sh 
 
 # Run
-CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]
+CMD /opt/install.sh;/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
