@@ -1,5 +1,10 @@
 #!/bin/bash
 
+#judgement
+if [[ -a /etc/supervisor/conf.d/supervisord.conf ]]; then
+  exit 0
+fi
+
 #supervisor
 cat > /etc/supervisor/conf.d/supervisord.conf <<EOF
 [supervisord]
@@ -19,12 +24,11 @@ sed -i -e "s/\"password\"/\"$T_passwd\"/" \
 #flexget
 if [[ -z "$T_rss" ]]; then
   exit 0
-elif [[ ! -a /opt/config.yml ]]; then
-	cat >> /etc/supervisor/conf.d/supervisord.conf <<-EOF
-	[program:flexget]
-	command=/usr/local/bin/flexget -c /opt/config.yml daemon start
-	EOF
 fi
+cat >> /etc/supervisor/conf.d/supervisord.conf <<EOF
+[program:flexget]
+command=/usr/local/bin/flexget -c /opt/config.yml daemon start
+EOF
 cat > /opt/config.yml <<EOF
 tasks:
   CHD.personal:
@@ -45,4 +49,3 @@ schedules:
     interval:
       minutes: 5
 EOF
-
