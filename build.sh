@@ -1,3 +1,3 @@
 #!/bin/bash
 
-docker build --rm -t catatnight/transmission .
+docker build -t catatnight/transmission .
