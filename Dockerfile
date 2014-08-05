@@ -14,13 +14,8 @@ RUN apt-get -y install transmission-daemon && /etc/init.d/transmission-daemon st
 RUN apt-get -y install --no-install-recommends python-pip && pip install flexget transmissionrpc
 
 # Add files
-#transmission
-ADD assets/settings.default.json /etc/transmission-daemon/settings.json
-
-# Configure
-
-# Initialization
 ADD assets/install.sh /opt/install.sh
+ADD assets/settings.default.json /etc/transmission-daemon/settings.json
 
 # Run
 CMD /opt/install.sh;/usr/bin/supervisord -c /etc/supervisor/supervisord.conf
