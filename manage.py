@@ -1,8 +1,10 @@
 #!/usr/bin/python
 
 import sys
-import shlex, subprocess
+import shlex
+import subprocess
 import argparse
+import urllib
 
 if __name__ == '__main__':
   app_name = 'transmission'
@@ -43,8 +45,9 @@ if __name__ == '__main__':
     if process.stdout.readline():
       if signal == "create":
         signal += " and start"
+        ip = urllib.urlopen('http://icanhazip.com/').read().strip()
         print bcolors.OKGREEN + \
-              "You can visit web client on http://your.domain:9091 with username/password:{0}/{1}".format(args.username, args.password) \
+              "You can visit web client on http://{0}:9091 with username/password:{1}/{2}".format(ip, args.username, args.password) \
               + bcolors.ENDC
       print bcolors.OKGREEN + signal + " %s successfully" % app_name + bcolors.ENDC
     else:
