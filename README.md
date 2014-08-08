@@ -38,5 +38,4 @@ run Transmission (BitTorrent client) including web client in a docker container
 ## Reference
 + [EditConfigFiles – Transmission](https://trac.transmissionbt.com/wiki/EditConfigFiles)
 + [Plugins – FlexGet](http://flexget.com/wiki/Plugins)
-+ [angelrr7702 / transmission](https://github.com/angelrr7702/transmission)
 + TBD
