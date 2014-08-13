@@ -13,9 +13,7 @@ RUN apt-get -y install autotools-dev cdbs debhelper dh-autoreconf dpkg-dev gette
 RUN export sniproxy_version=$(curl https://github.com/dlundquist/sniproxy/releases | grep -o '[0-9]\.[0-9]\.[0-9]' | head -1) \
 	&& cd /tmp && wget https://github.com/dlundquist/sniproxy/archive/$sniproxy_version.tar.gz \
 	&& tar -zxf $sniproxy_version.tar.gz && cd sniproxy-$sniproxy_version/ \
-	&& dpkg-buildpackage && dpkg -i ../sniproxy_*.deb \
-	&& sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/sniproxy \
-	&& echo 'DAEMON_ARGS="-c /etc/sniproxy/sniproxy.conf"' >> /etc/default/sniproxy
+	&& dpkg-buildpackage && dpkg -i ../sniproxy_*.deb
 
 # Run
-CMD ["/usr/sbin/sniproxy","-f"]
+CMD ["/usr/sbin/sniproxy","-f","-c /etc/sniproxy/sniproxy.conf"]
