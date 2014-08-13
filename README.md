@@ -7,21 +7,23 @@ SNI Proxy in docker
 + Docker 1.0
 
 ## Installation
-1. Build image (as root)
+1. Pull image
 
 	```bash
-	$ docker pull catatnight/sniproxy
+	$ sudo docker pull catatnight/sniproxy
 	```
 
 ## Usage
-1. Create container and manage it (as root)
+1. Save `sniproxy.conf` file to `<sniproxy.conf-dir>`
+2. Create container
 
 	```bash
-	$ docker run --net=host -v <sniproxy.conf-dir>:/etc/sniproxy --name sniproxy -d catatnight/sniproxy
+	$ sudo docker run --net=host -v <sniproxy.conf-dir>:/etc/sniproxy --name sniproxy -d catatnight/sniproxy
 	```
 
 ## Note
 + TBD
 
 ## Reference
++ [SNIproxy Configuration Syntax](https://github.com/dlundquist/sniproxy#configuration-syntax)
 + TBD
