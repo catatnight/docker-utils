@@ -16,4 +16,4 @@ RUN export sniproxy_version=$(curl https://github.com/dlundquist/sniproxy/releas
 	&& dpkg-buildpackage && dpkg -i ../sniproxy_*.deb
 
 # Run
-CMD ["/usr/sbin/sniproxy","-f","-c /etc/sniproxy/sniproxy.conf"]
+CMD ["/usr/sbin/sniproxy","-f","-c","/etc/sniproxy/sniproxy.conf"]
