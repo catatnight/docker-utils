@@ -14,7 +14,8 @@ RUN export sniproxy_version=$(curl https://github.com/dlundquist/sniproxy/releas
 	&& cd /tmp && wget https://github.com/dlundquist/sniproxy/archive/$sniproxy_version.tar.gz \
 	&& tar -zxf $sniproxy_version.tar.gz && cd sniproxy-$sniproxy_version/ \
 	&& dpkg-buildpackage && dpkg -i ../sniproxy_*.deb \
-	&& sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/sniproxy
+	&& sed -i "s/ENABLED=0/ENABLED=1/" /etc/default/sniproxy \
+	&& echo 'DAEMON_ARGS="-c /etc/sniproxy/sniproxy.conf"' >> /etc/default/sniproxy
 
 # Run
 CMD ["/usr/sbin/sniproxy","-f"]
