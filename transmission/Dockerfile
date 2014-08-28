@@ -11,7 +11,7 @@ RUN apt-get update
 # Install package here for cache
 RUN apt-get -y install supervisor
 RUN apt-get -y install transmission-daemon && /etc/init.d/transmission-daemon stop
-RUN apt-get -y install --no-install-recommends python-pip && pip install flexget transmissionrpc
+RUN apt-get -y install --no-install-recommends python-pip python-dev gcc && pip install flexget transmissionrpc
 
 # Add files
 ADD assets/install.sh /opt/install.sh
